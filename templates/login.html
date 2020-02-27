@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title> Log In </title>
+</head>
+<body>
+    <div id="login-in-box">
+        <h2> Log In </h2>
+        <input type="text" placeholder="ID" id="id" name="id"/><br>
+        <input type="password" placeholder="Password" id="pw" name="pw"/><br>
+        <input type="button" id="submit" value="Log In">
+    </div>
+    <script>
+        $("#submit").on("click", function(e){
+            let id = $("#id").val();
+            let pw = $("#pw").val();
+
+            if(id!= "" && pw != ""){
+                $.ajax({
+                    url : "/login_check",
+                    method : "post",
+                    data : {
+                        "id" : id,
+                        "pw" : pw
+                    }
+                }).done(function(result){
+                     if(result == "success"){
+                        location.href = "/main";
+                     }
+                     else{
+                        alert(result);
+                     }
+                });
+            }
+            else{
+                alert("Fill the Form");
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Registration </title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <div id="create-box">
+        <h2> Create Account </h2>
+        <input type="text" placeholder="ID" id="id" name="id"/><br>
+        <div id="id-warning"></div>
+        <input type="password" placeholder="Password" id="pw" name="pw"/><br>
+        <input type="password" placeholder="Re-Enter Password" id="check-pw"/><br>
+        <div id="pw-warning"></div>
+        <input type="button" id="submit" value="Create Account">
+    </div>
+    <script>
+
+        $("#submit").on("click", function(e){
+            var id = $("#id").val();
+            var pw = $("#pw").val();
+            $.ajax({
+                url : "/regist",
+                method : "post",
+                data : {
+                    "id" : id,
+                    "pw" : pw
+                }
+            }).done(function(result){
+                alert(result);
+            });
+        });
+
+        $("#check-pw").on("keyup", function(e){
+            var check = $(this).val();
+            var pw = $("#pw").val();
+            if(pw != check){
+                $("#pw-warning").html("Password Not Match.");
+                $("#pw-warning").css("color", "red");
+            }
+            else{
+                $("#pw-warning").html("Password Match.");
+                $("#pw-warning").css("color", "blue");
+            }
+        });
+
+        $("#id").on("keyup", function(e){
+            var user_id = $(this).val();
+            $.ajax({
+                url : "/id_check",
+                method : "post",
+                data : {
+                    "id" : user_id,
+                }
+            }).done(function(result){
+                if(result == "already"){
+                    $("#id-warning").html("ID Already Exists");
+                    $("#id-warning").css("color", "red");
+                }
+                else{
+                    $("#id-warning").html("Can Use ID");
+                    $("#id-warning").css("color", "blue");
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
