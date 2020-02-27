@@ -50,6 +50,7 @@ def regist():
     pw = request.form.get("pw")
 
     if id not in users:
+        users[id] = pw
         f = open("user.db", "wb")
         pk.dump(users, f)
         f.close()
@@ -76,7 +77,5 @@ def getUsers():
 def logout():
     session.pop('login_id', None)
     return 'success'
-
-
 
 app.run()
