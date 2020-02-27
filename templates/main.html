@@ -2,9 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title> {{login_id}} Title</title>
 </head>
 <body>
     <h3>Welcome <span>{{login_id}}</span>!</h3>
+    <input type="button" value="Logout" id="logout" name="logout">
 </body>
+<script>
+    $("#logout").on("click", function(e){
+        let id = $("#id").val();
+
+        console.log('hit');
+            $.ajax({
+                url : "/logout",
+                method : "get",
+                data : {
+                    "login_id" : id,
+                }
+            }).done(function(result){
+                if(result == 'success') {
+                    location.href = '/login';
+                }
+            });
+        });
+
+</script>
 </html>

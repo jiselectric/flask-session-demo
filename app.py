@@ -33,7 +33,7 @@ def login_check():
 @app.route('/main')
 def main():
     if "login_id" not in session:
-        return "<script>alert('Log In Needed.');location.href='/login';</script>"
+        return "<script>alert('Login Needed.');location.href='/login';</script>"
         # return redirect(url_for('login'))
     id = session["login_id"]
     return render_template('main.html', login_id=id)
@@ -50,7 +50,6 @@ def regist():
     pw = request.form.get("pw")
 
     if id not in users:
-        users[id] = pw
         f = open("user.db", "wb")
         pk.dump(users, f)
         f.close()
@@ -71,5 +70,13 @@ def id_check():
 @app.route('/users')
 def getUsers():
     return str(users)
+
+# Logout
+@app.route('/logout')
+def logout():
+    session.pop('login_id', None)
+    return 'success'
+
+
 
 app.run()

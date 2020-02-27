@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> Registration </title>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title> Registration </title>
 </head>
 <body>
 
     <div id="create-box">
         <h2> Create Account </h2>
+        <input type="text" placeholder="Name" id="name" name="name"><br>
         <input type="text" placeholder="ID" id="id" name="id"/><br>
         <div id="id-warning"></div>
         <input type="password" placeholder="Password" id="pw" name="pw"/><br>
