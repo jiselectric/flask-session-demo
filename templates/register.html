@@ -23,12 +23,15 @@
         $("#submit").on("click", function(e){
             var id = $("#id").val();
             var pw = $("#pw").val();
+            var name = $("#name").val();
+
             $.ajax({
                 url : "/regist",
                 method : "post",
                 data : {
                     "id" : id,
-                    "pw" : pw
+                    "pw" : pw,
+                    'name' : name
                 }
             }).done(function(result){
                 alert(result);

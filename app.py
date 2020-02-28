@@ -23,7 +23,7 @@ def login_check():
 
     if id not in users:
         return "No Matching Account."
-    elif users[id] != pw:
+    elif users[id][0] != pw:
         return "Wrong Password."
     else:
         session["login_id"] = id
@@ -48,9 +48,10 @@ def register():
 def regist():
     id = request.form.get("id")
     pw = request.form.get("pw")
+    name = request.form.get('name')
 
     if id not in users:
-        users[id] = pw
+        users[id] = [pw, name]
         f = open("user.db", "wb")
         pk.dump(users, f)
         f.close()
@@ -77,5 +78,37 @@ def getUsers():
 def logout():
     session.pop('login_id', None)
     return 'success'
+
+# Find ID & Password
+@app.route('/findAccount')
+def findAccount():
+    return render_template('find.html')
+
+@app.route('/find', methods=["POST"])
+def find():
+    id = request.form.get("id")
+    name = request.form.get('name')
+
+    if id in users and name == users[id][1]:
+        return 'success'
+    else:
+        return 'fail'
+
+@app.route('/changePW', methods=["POST"])
+def changePW():
+    id = request.form.get('id')
+    pw = request.form.get("pw")
+    check_pw = request.form.get('check_pw')
+    name = request.form.get('name')
+
+    if pw == check_pw:
+        users[id][0] = pw
+        f = open("user.db", "wb")
+        pk.dump(users, f)
+        f.close()
+        return "success"
+    else:
+        return "Password Not Change"
+
 
 app.run()

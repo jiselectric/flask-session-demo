@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title> Find Account </title>
+</head>
+<body>
+    <div id="find-account-box">
+        <h2> Find ID </h2>
+        <input type="text" placeholder="Type Name" name="name" id="id-name"><br>
+        <div id="id-result"></div>
+        <input type="button" value="Find ID" id ='id-btn'>
+        <h2> Find Password </h2>
+        <input type="text" placeholder="Type Name" name="name" id="pw-name"><br>
+        <input type="text" placeholder="Type ID" name="id" id="id"><br>
+        <div id="pw-result"></div>
+        <div id="pw-change">
+            <input type="password" placeholder="New Password" name="new-pw" id="new-pw"><br>
+            <input type="password" placeholder="Re-enter New Password" name="new-pw" id="check-new-pw"><br>
+            <input type="button" value="Change Password" id ='new-pw-btn'>
+        </div>
+        <input type="button" value="Find Password" id ='pw-btn'>
+    </div>
+</body>
+<script>
+            $('#pw-change').hide()
+
+            $("#pw-btn").on("click", function(e){
+            let name = $("#pw-name").val();
+            let id = $("#id").val();
+
+            if(id!= "" && name != ""){
+                $.ajax({
+                    url : "/find",
+                    method : "post",
+                    data : {
+                        "id" : id,
+                        "name" : name
+                    }
+                }).done(function(result){
+                     if(result == "success"){
+                        $("#pw-result").html("Password Found.");
+                        $("#pw-result").css("color", "blue");
+                        $('#pw-change').show()
+                     }
+                     else{
+                        $("#pw-result").html("Password Not Found.");
+                        $("#pw-result").css("color", "red");
+                     }
+                });
+            }
+        });
+
+        $("#new-pw-btn").on("click", function(e){
+            let id = $("#id").val();
+            var check = $('#check-new-pw').val();
+            var pw = $("#new-pw").val();
+
+            if(pw != '' && check != ''){
+                $.ajax({
+                    url : '/changePW',
+                    method : 'post',
+                    data : {
+                        'id' : id,
+                        'pw' : pw,
+                        'check_pw' : check
+                    }
+                }).done(function(result){
+                    if(result == 'success'){
+                        console.log('hey');
+                        alert(result);
+                    }
+                    else {
+                        alert(result);
+                    }
+                });
+            }
+        });
+
+</script>
+</html>
